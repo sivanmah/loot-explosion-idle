@@ -12,7 +12,7 @@ export type Enemies = {
 };
 
 export interface Item {
-  id: number;
+  id: string;
   name: string;
   type: "currency" | "equipment";
   rarity: "common" | "rare" | "epic" | "legendary";
@@ -28,8 +28,12 @@ export interface Items {
 
 export interface GroundItem {
   id: string;
-  itemId: number;
+  itemId: string;
   name: string;
   rarity: Item["rarity"];
   pickedUp: boolean;
+}
+
+export interface CurrencyState {
+  [key: keyof Items]: number;
 }

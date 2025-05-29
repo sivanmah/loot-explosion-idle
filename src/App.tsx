@@ -1,12 +1,34 @@
 import { useState } from "react";
 import LootDrops from "./LootDrops";
+import Inventory from "./Inventory";
+import type { CurrencyState, Item } from "./types";
 
 function App() {
   const [summonLeveL, setSummonLevel] = useState(1);
+  const [currency, setCurrency] = useState<CurrencyState>({
+    gold: 0,
+  });
+  function handleItemPickup(item: Item) {
+    // Update currency based on item type
+    if (item.type === "currency") {
+      setCurrency((prev) => ({
+        ...prev,
+        [item.id]: (prev[item.id] ?? 0) + 1,
+      }));
+    }
+  }
+
   return (
-    <div className="h-screen w-screen bg-gray-900 flex justify-center items-center">
+    <div className="h-screen w-screen bg-gray-900 flex justify-evenly items-center">
+      <div className="w-1/4 h-1/2">Monster selector placeholder</div>
       <div className="w-1/4 h-1/2">
-        <LootDrops summonLevel={summonLeveL} />
+        <LootDrops
+          summonLevel={summonLeveL}
+          onItemPickup={(item) => handleItemPickup(item)}
+        />
+      </div>
+      <div className="w-1/4 h-1/2">
+        <Inventory currency={currency} />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import type { Item, Items } from "../types";
 import enemies from "./enemies";
 
 const gold: Item = {
-  id: 1,
+  id: "gold",
   name: "Gold",
   type: "currency",
   rarity: "common",

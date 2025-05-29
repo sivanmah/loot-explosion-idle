@@ -8,10 +8,13 @@ import { v4 as uuidv4 } from "uuid";
 
 interface LootDropsProps {
   summonLevel: number;
+  onItemPickup: (item: Item) => void;
 }
 
-export default function LootDrops({ summonLevel }: LootDropsProps) {
-  const [pickedUpItems, setPickedUpItems] = useState<Set<number>>(new Set());
+export default function LootDrops({
+  summonLevel,
+  onItemPickup,
+}: LootDropsProps) {
   const [groundItems, setGroundItems] = useState<GroundItem[]>([]);
   const [enemy, setEnemy] = useState<Enemy>(enemies.imp);
 
@@ -43,6 +46,7 @@ export default function LootDrops({ summonLevel }: LootDropsProps) {
       const newGroundItems = prev.filter((item) => item.pickedUp === false);
       while (i < currencyDrops) {
         newGroundItems.push({
+          // use uuid to differentiate items when picking same type up
           id: uuidv4(),
           itemId: items.gold.id,
           name: items.gold.name,
@@ -55,11 +59,16 @@ export default function LootDrops({ summonLevel }: LootDropsProps) {
     });
   };
 
-  const pickupItem = (id: string) => {
-    console.log(id);
+  const pickupItem = (id: string, itemId: string) => {
     setGroundItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, pickedUp: true } : item))
+      prev.map((item) => {
+        if (item.id === id && !item.pickedUp) {
+          return { ...item, pickedUp: true };
+        }
+        return item;
+      })
     );
+    onItemPickup(items[itemId]);
   };
 
   function handleEnemySelect(enemy: Enemy) {}
@@ -78,16 +87,13 @@ export default function LootDrops({ summonLevel }: LootDropsProps) {
           }
         }
       `}</style>
-      <EnemySelect
-        summonLevel={summonLevel}
-        onEnemySelect={(enemy) => handleEnemySelect(enemy)}
-      />
+
       <div className="relative h-full bg-gray-800 rounded-lg flex items-center justify-center space-y- p-2 overflow-y-hidden">
         <div className="flex flex-wrap justify-center gap-1">
           {groundItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => pickupItem(item.id)}
+              onClick={() => pickupItem(item.id, item.itemId)}
               className={`px-3 py-1 bg-gray-950 ${
                 rarityColors[item.rarity]
               } text-sm font-semibold transform transition-all duration-100 hover:scale-110 hover:shadow-lg cursor-pointer
@@ -99,6 +105,10 @@ export default function LootDrops({ summonLevel }: LootDropsProps) {
         </div>
       </div>
       <div className="pt-2">
+        <EnemySelect
+          summonLevel={summonLevel}
+          onEnemySelect={(enemy) => handleEnemySelect(enemy)}
+        />
         <Summoner onMonsterSlay={() => generateItems()} />
       </div>
     </div>
