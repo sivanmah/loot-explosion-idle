@@ -5,7 +5,7 @@ const imp: Enemy = {
   level: 1,
   hp: 10,
   attack: 5,
-  rarityMultiplier: 1,
+  rarityMultiplier: 0,
   quantityMultiplier: 1.3,
 };
 
@@ -14,7 +14,7 @@ const goblin: Enemy = {
   level: 2,
   hp: 20,
   attack: 10,
-  rarityMultiplier: 1,
+  rarityMultiplier: 0.1,
   quantityMultiplier: 1.6,
 };
 

@@ -8,12 +8,12 @@ function App() {
   const [currency, setCurrency] = useState<CurrencyState>({
     gold: 0,
   });
-  function handleItemPickup(item: Item) {
+  function handleItemPickup(item: Item, amount: number) {
     // Update currency based on item type
     if (item.type === "currency") {
       setCurrency((prev) => ({
         ...prev,
-        [item.id]: (prev[item.id] ?? 0) + 1,
+        [item.id]: (prev[item.id] ?? 0) + amount,
       }));
     }
   }
@@ -24,7 +24,7 @@ function App() {
       <div className="w-1/4 h-1/2">
         <LootDrops
           summonLevel={summonLeveL}
-          onItemPickup={(item) => handleItemPickup(item)}
+          onItemPickup={(item, amount) => handleItemPickup(item, amount)}
         />
       </div>
       <div className="w-1/4 h-1/2">

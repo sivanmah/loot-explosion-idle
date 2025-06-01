@@ -16,7 +16,13 @@ export interface Item {
   name: string;
   type: "currency" | "equipment";
   rarity: "common" | "rare" | "epic" | "legendary";
-  dropWeight: number;
+  scaling?: boolean;
+  scalingDropValues?: {
+    common: number;
+    rare: number;
+    epic: number;
+    legendary: number;
+  };
   minLevel?: number;
   maxLevel?: number;
   droppedBy: Enemy[];
@@ -30,8 +36,10 @@ export interface GroundItem {
   id: string;
   itemId: string;
   name: string;
+  type: Item["type"];
   rarity: Item["rarity"];
   pickedUp: boolean;
+  amount: number;
 }
 
 export interface CurrencyState {
