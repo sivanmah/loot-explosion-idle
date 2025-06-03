@@ -25,6 +25,9 @@ export interface Item {
   };
   minLevel?: number;
   maxLevel?: number;
+  // Optional properties for equipment
+  baseAttack?: number;
+  baseDefense?: number;
   droppedBy: Enemy[];
 }
 

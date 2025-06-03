@@ -31,6 +31,7 @@ const dagger: Item = {
   name: "Dagger",
   type: "equipment",
   rarity: "common",
+  baseAttack: 5,
   droppedBy: [enemies.imp],
 };
 
