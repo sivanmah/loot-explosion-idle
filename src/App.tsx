@@ -1,20 +1,29 @@
 import { useState } from "react";
 import LootDrops from "./LootDrops";
 import Inventory from "./Inventory";
-import type { CurrencyState, Item } from "./types";
+import type { CurrencyState, InventoryItem, Item } from "./types";
 
 function App() {
   const [summonLeveL, setSummonLevel] = useState(1);
   const [currency, setCurrency] = useState<CurrencyState>({
     gold: 0,
   });
-  function handleItemPickup(item: Item, amount: number) {
-    // Update currency based on item type
+  const [items, setItems] = useState<InventoryItem[]>([]);
+
+  function handleItemPickup(item: Item, amount: number, id: string) {
     if (item.type === "currency") {
       setCurrency((prev) => ({
         ...prev,
         [item.id]: (prev[item.id] ?? 0) + amount,
       }));
+    } else {
+      setItems((prev) => [
+        ...prev,
+        {
+          itemId: item.id,
+          id: id,
+        },
+      ]);
     }
   }
 
@@ -24,11 +33,13 @@ function App() {
       <div className="w-1/4 h-1/2">
         <LootDrops
           summonLevel={summonLeveL}
-          onItemPickup={(item, amount) => handleItemPickup(item, amount)}
+          onItemPickup={(item, amount, id) =>
+            handleItemPickup(item, amount, id)
+          }
         />
       </div>
       <div className="w-1/4 h-1/2">
-        <Inventory currency={currency} />
+        <Inventory currency={currency} items={items} />
       </div>
     </div>
   );

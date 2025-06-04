@@ -35,6 +35,11 @@ export interface Items {
   [key: string]: Item;
 }
 
+export interface InventoryItem {
+  itemId: string;
+  id: string;
+}
+
 export interface GroundItem {
   id: string;
   itemId: string;

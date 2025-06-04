@@ -1,7 +1,12 @@
-import InventoryItem from "./InventoryItem";
-import type { CurrencyState } from "./types";
+import type { CurrencyState, InventoryItem } from "./types";
 
-export default function Inventory({ currency }: { currency: CurrencyState }) {
+export default function Inventory({
+  currency,
+  items,
+}: {
+  currency: CurrencyState;
+  items: InventoryItem[];
+}) {
   const boxes = Array.from({ length: 100 }, (_, index) => index);
 
   return (

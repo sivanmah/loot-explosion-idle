@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface LootDropsProps {
   summonLevel: number;
-  onItemPickup: (item: Item, amount: number) => void;
+  onItemPickup: (item: Item, amount: number, id: string) => void;
 }
 
 export default function LootDrops({
@@ -153,7 +153,7 @@ export default function LootDrops({
     // Find the picked up item to pass to onItemPickup
     const pickedItem = groundItems.find((item) => item.id === id);
     if (pickedItem) {
-      onItemPickup(items[itemId], pickedItem.amount);
+      onItemPickup(items[itemId], pickedItem.amount, pickedItem.id);
     }
   };
 
